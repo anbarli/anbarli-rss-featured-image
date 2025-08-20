@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / build (not used but common)
+node_modules/
+dist/
+build/
+
+# Composer
+/vendor/
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Mac resource forks
+._*
