@@ -27,7 +27,16 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          tools: composer
+          tools: composer:v2
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('composer.lock', 'composer.json') }}
+          restore-keys: |
+            composer-${{ runner.os }}-php-${{ matrix.php-version }}-
 
       - name: Validate composer.json
         run: composer validate --strict
