@@ -1,101 +1,102 @@
 <?php
 /**
- * Plugin Name: Anbarlı RSS Featured Image
+ * Plugin Name: Anbarli RSS Featured Image
  * Plugin URI:  https://anbarli.com.tr
- * Description: Yazıların öne çıkarılan görsellerini RSS beslemesine media:content olarak ekler (MRSS). Adds each post's featured image to the RSS feed as media:content.
+ * Description: Adds each post's featured image to the WordPress RSS feed as a Media RSS media:content tag.
  * Version:     1.0.0
- * Author:      Gürkan Anbarlı
+ * Author:      Gurkan Anbarli
  * Author URI:  https://anbarli.com.tr
  * Text Domain: anbarli-rss-featured-image
  * Domain Path: /languages
+ * Requires at least: 5.0
  * Requires PHP: 7.4
  * License:     MIT
+ * License URI: https://opensource.org/licenses/MIT
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+	exit;
 }
 
 if ( ! class_exists( 'Anbarli_RSS_Featured_Image' ) ) {
+	/**
+	 * Adds WordPress featured images to RSS feeds as Media RSS elements.
+	 */
+	final class Anbarli_RSS_Featured_Image {
+		/**
+		 * Register WordPress hooks.
+		 */
+		public function __construct() {
+			add_action( 'init', array( $this, 'load_textdomain' ) );
+			add_action( 'rss2_ns', array( $this, 'add_media_namespace' ) );
+			add_action( 'rss2_item', array( $this, 'add_featured_image' ) );
+		}
 
-    final class Anbarli_RSS_Featured_Image {
+		/**
+		 * Load translations, if available.
+		 */
+		public function load_textdomain() {
+			load_plugin_textdomain( 'anbarli-rss-featured-image', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+		}
 
-        public function __construct() {
-            add_action( 'init', array( $this, 'load_textdomain' ) );
-            add_action( 'rss2_ns', array( $this, 'add_media_namespace' ) );
-            add_action( 'rss2_item', array( $this, 'add_featured_image' ) );
-        }
+		/**
+		 * Add the Media RSS namespace to the RSS element.
+		 */
+		public function add_media_namespace() {
+			echo 'xmlns:media="http://search.yahoo.com/mrss/"' . "\n";
+		}
 
-        /**
-         * Load translations, if available.
-         */
-        public function load_textdomain() {
-            load_plugin_textdomain( 'anbarli-rss-featured-image', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-        }
+		/**
+		 * Output a media:content element for the current post featured image.
+		 */
+		public function add_featured_image() {
+			global $post;
 
-        /**
-         * Add Media RSS namespace to the <rss> element.
-         * Outputs something like: xmlns:media="http://search.yahoo.com/mrss/"
-         */
-        public function add_media_namespace() {
-            echo 'xmlns:media="http://search.yahoo.com/mrss/"' . "\n";
-        }
+			if ( empty( $post ) || ! isset( $post->ID ) || ! has_post_thumbnail( $post->ID ) ) {
+				return;
+			}
 
-        /**
-         * Output <media:content> for the featured image of each item.
-         * Allows overriding the size via the 'anbarli_rss_image_size' filter.
-         */
-        public function add_featured_image() {
-            global $post;
+			/**
+			 * Filters the image size used in RSS media:content output.
+			 *
+			 * @param string $size WordPress image size name.
+			 */
+			$size     = apply_filters( 'anbarli_rss_image_size', 'large' );
+			$thumb_id = get_post_thumbnail_id( $post->ID );
+			$src_data = wp_get_attachment_image_src( $thumb_id, $size );
 
-            if ( empty( $post ) || ! isset( $post->ID ) ) {
-                return;
-            }
+			$url    = is_array( $src_data ) ? $src_data[0] : get_the_post_thumbnail_url( $post->ID, $size );
+			$width  = is_array( $src_data ) && isset( $src_data[1] ) ? (int) $src_data[1] : 0;
+			$height = is_array( $src_data ) && isset( $src_data[2] ) ? (int) $src_data[2] : 0;
 
-            if ( ! has_post_thumbnail( $post->ID ) ) {
-                return;
-            }
+			if ( empty( $url ) ) {
+				return;
+			}
 
-            $size = apply_filters( 'anbarli_rss_image_size', 'large' );
-            $thumb_id = get_post_thumbnail_id( $post->ID );
+			$mime = get_post_mime_type( $thumb_id );
+			if ( empty( $mime ) ) {
+				$mime = 'image/jpeg';
+			}
 
-            // Try to get src, width, height via wp_get_attachment_image_src
-            $src_data = wp_get_attachment_image_src( $thumb_id, $size );
-            $url = is_array( $src_data ) ? $src_data[0] : get_the_post_thumbnail_url( $post->ID, $size );
-            $width  = is_array( $src_data ) && isset( $src_data[1] ) ? intval( $src_data[1] ) : 0;
-            $height = is_array( $src_data ) && isset( $src_data[2] ) ? intval( $src_data[2] ) : 0;
+			printf(
+				"\t<media:content url=\"%s\" medium=\"image\" type=\"%s\"%s%s />\n",
+				esc_url( $url ),
+				esc_attr( $mime ),
+				$width ? ' width="' . esc_attr( $width ) . '"' : '',
+				$height ? ' height="' . esc_attr( $height ) . '"' : ''
+			);
 
-            if ( empty( $url ) ) {
-                return;
-            }
-
-            $mime = get_post_mime_type( $thumb_id );
-            if ( empty( $mime ) ) {
-                // Sensible default if mime type isn't available.
-                $mime = 'image/jpeg';
-            }
-
-            // Print a <media:content> element per MRSS spec.
-            // Example:
-            // <media:content url="https://example.com/image.jpg" medium="image" type="image/jpeg" width="1200" height="630" />
-            echo sprintf(
-                "\t<media:content url=\"%s\" medium=\"image\" type=\"%s\"%s%s />\n",
-                esc_url( $url ),
-                esc_attr( $mime ),
-                $width  ? ' width="' . esc_attr( $width ) . '"' : '',
-                $height ? ' height="' . esc_attr( $height ) . '"' : ''
-            );
-
-            /**
-             * Optional: Also add enclosure for older readers, behind a filter flag.
-             * Disabled by default.
-             */
-            $add_enclosure = apply_filters( 'anbarli_rss_add_enclosure', false );
-            if ( $add_enclosure ) {
-                echo sprintf( "\t<enclosure url=\"%s\" type=\"%s\" />\n", esc_url( $url ), esc_attr( $mime ) );
-            }
-        }
-    }
+			/**
+			 * Filters whether an RSS enclosure tag should also be added.
+			 *
+			 * @param bool $add_enclosure Whether to print an enclosure element.
+			 */
+			$add_enclosure = apply_filters( 'anbarli_rss_add_enclosure', false );
+			if ( $add_enclosure ) {
+				printf( "\t<enclosure url=\"%s\" type=\"%s\" />\n", esc_url( $url ), esc_attr( $mime ) );
+			}
+		}
+	}
 }
 
 new Anbarli_RSS_Featured_Image();

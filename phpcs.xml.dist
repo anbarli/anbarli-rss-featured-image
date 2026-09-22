@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Anbarli RSS Featured Image">
+	<description>WordPress coding standards for Anbarli RSS Featured Image.</description>
+
+	<file>anbarli-rss-featured-image.php</file>
+
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+
+	<rule ref="WordPress"/>
+
+	<config name="minimum_supported_wp_version" value="5.0"/>
+
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+</ruleset>

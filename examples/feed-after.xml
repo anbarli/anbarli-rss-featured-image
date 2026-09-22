@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+	<channel>
+		<title>Example Site</title>
+		<link>https://example.com</link>
+		<description>Example WordPress feed after activating the plugin.</description>
+		<item>
+			<title>Example Post</title>
+			<link>https://example.com/example-post/</link>
+			<guid>https://example.com/example-post/</guid>
+			<description>Post content appears in the feed with featured image metadata.</description>
+			<media:content url="https://example.com/uploads/featured.jpg" medium="image" type="image/jpeg" width="1200" height="630" />
+		</item>
+	</channel>
+</rss>

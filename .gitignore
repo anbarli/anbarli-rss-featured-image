@@ -1,21 +1,14 @@
-# OS
 .DS_Store
 Thumbs.db
 
-# Node / build (not used but common)
-node_modules/
-dist/
-build/
-
-# Composer
-/vendor/
-
-# IDEs
-.vscode/
+# Local editor files
 .idea/
+.vscode/
 
-# Logs
+# Logs and temporary files
 *.log
+*.tmp
 
-# Mac resource forks
-._*
+# Dependency directories if tooling is added later
+vendor/
+node_modules/

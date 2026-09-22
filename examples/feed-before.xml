@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>Example Site</title>
+		<link>https://example.com</link>
+		<description>Example WordPress feed before activating the plugin.</description>
+		<item>
+			<title>Example Post</title>
+			<link>https://example.com/example-post/</link>
+			<guid>https://example.com/example-post/</guid>
+			<description>Post content appears in the feed, but no featured image metadata is exposed.</description>
+		</item>
+	</channel>
+</rss>
