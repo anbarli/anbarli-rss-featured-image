@@ -27,9 +27,10 @@ Features:
 == Installation ==
 
 1. Upload the plugin folder to `/wp-content/plugins/anbarli-rss-featured-image`.
-2. Activate the plugin through the Plugins screen in WordPress.
-3. Open your RSS feed, usually `/feed/`.
-4. Search the feed source for `media:content`.
+2. Confirm this file exists: `/wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`.
+3. Activate the plugin through the Plugins screen in WordPress.
+4. Open your RSS feed, usually `/feed/`.
+5. Search the feed source for `media:content`.
 
 == Frequently Asked Questions ==
 
@@ -52,6 +53,10 @@ Yes. Enable it with:
 = Why are images missing in a feed reader? =
 
 Confirm that the post has a featured image and that `media:content` appears in the raw feed source. Some readers ignore Media RSS and use Open Graph image metadata from the article page instead.
+
+= WordPress says the plugin file does not exist. What should I check? =
+
+Confirm the plugin is installed at `/wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the full plugin folder again, and activate it.
 
 == Changelog ==
 

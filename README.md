@@ -53,14 +53,16 @@ add_theme_support( 'post-thumbnails' );
 1. Download the repository as a ZIP file.
 2. In WordPress, go to **Plugins > Add New > Upload Plugin**.
 3. Upload the ZIP file.
-4. Activate **Anbarli RSS Featured Image**.
-5. Open `https://example.com/feed/` and inspect the RSS source.
+4. Confirm the installed plugin folder is named `anbarli-rss-featured-image`.
+5. Activate **Anbarli RSS Featured Image**.
+6. Open `https://example.com/feed/` and inspect the RSS source.
 
 ### Manual Install
 
 1. Copy this folder to `wp-content/plugins/anbarli-rss-featured-image`.
-2. Activate the plugin from the WordPress admin panel.
-3. Visit your RSS feed and look for `<media:content>`.
+2. Confirm this file exists: `wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`.
+3. Activate the plugin from the WordPress admin panel.
+4. Visit your RSS feed and look for `<media:content>`.
 
 ### Git Install
 
@@ -136,6 +138,10 @@ Some readers ignore Media RSS and use Open Graph metadata instead. Add or verify
 ### MIME type is missing
 
 If WordPress cannot return the attachment MIME type, the plugin falls back to `image/jpeg`.
+
+### WordPress says the plugin file does not exist
+
+Confirm the plugin is installed at `wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the full plugin folder again, and activate it.
 
 ## Roadmap
 
