@@ -3,12 +3,14 @@
 	<description>WordPress coding standards for Anbarli RSS Featured Image.</description>
 
 	<file>anbarli-rss-featured-image.php</file>
-	<file>includes</file>
 
 	<arg name="extensions" value="php"/>
 	<arg name="parallel" value="8"/>
 
 	<rule ref="WordPress"/>
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>anbarli-rss-featured-image.php</exclude-pattern>
+	</rule>
 
 	<config name="minimum_supported_wp_version" value="5.0"/>
 

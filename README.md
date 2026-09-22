@@ -141,7 +141,7 @@ If WordPress cannot return the attachment MIME type, the plugin falls back to `i
 
 ### WordPress says the plugin file does not exist
 
-Confirm the plugin is installed at `wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the full plugin folder again, and activate it.
+Confirm the plugin is installed at `wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the plugin folder again, and activate it.
 
 ## Roadmap
 

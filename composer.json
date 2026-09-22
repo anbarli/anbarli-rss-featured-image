@@ -18,10 +18,7 @@
     "wp-coding-standards/wpcs": "^3.1"
   },
   "scripts": {
-    "lint": [
-      "php -l anbarli-rss-featured-image.php",
-      "php -l includes/class-anbarli-rss-featured-image.php"
-    ],
+    "lint": "php -l anbarli-rss-featured-image.php",
     "phpcs": "phpcs",
     "check": [
       "@lint",

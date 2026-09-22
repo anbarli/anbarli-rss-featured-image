@@ -56,7 +56,7 @@ Confirm that the post has a featured image and that `media:content` appears in t
 
 = WordPress says the plugin file does not exist. What should I check? =
 
-Confirm the plugin is installed at `/wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the full plugin folder again, and activate it.
+Confirm the plugin is installed at `/wp-content/plugins/anbarli-rss-featured-image/anbarli-rss-featured-image.php`. If the folder was renamed, deleted, or extracted from a ZIP with a suffix such as `-main`, deactivate the missing plugin entry, remove the incomplete folder, upload the plugin folder again, and activate it.
 
 == Changelog ==
 
